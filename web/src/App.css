@@ -1,52 +1,74 @@
 /* App.css */
 .App {
-  text-align: center;
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   font-family: Arial, sans-serif;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  color: white;
-  padding: 20px;
+.input-container {
+  margin-bottom: 20px;
 }
 
-.App-main {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-.App-footer {
-  background-color: #282c34;
-  color: white;
-  padding: 10px;
-}
-
-/* App.css */
-
-/* ... (your existing styles) */
-
-/* Style for the button */
-button {
-  padding: 8px 16px;
-  /* Adjust the padding */
-  font-size: 14px;
-  /* Decrease the font size */
-  background-color: #09f;
-  color: white;
-  border: none;
+input[type="text"] {
+  padding: 8px;
+  margin-right: 10px;
   border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: block;
-  /* Display as block to center */
-  margin: 20px auto;
-  /* Auto margins to center */
 }
 
 button:hover {
-  background-color: #0af;
+  background-color: #0056b3;
+}
+
+.notes-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stack-notes,
+.queue-notes {
+  flex: 1;
+}
+
+.stack-notes ul,
+.queue-notes ul {
+  list-style: none;
+  padding: 0;
+}
+
+.stack-notes h2,
+.queue-notes h2 {
+  margin-top: 0;
+}
+
+.stack-notes li,
+.queue-notes li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.stack-notes li:last-child,
+.queue-notes li:last-child {
+  border-bottom: none;
+}
+
+.stack-notes button,
+.queue-notes button {
+  background-color: #dc3545;
+}
+
+.stack-notes button:hover,
+.queue-notes button:hover {
+  background-color: #c82333;
 }

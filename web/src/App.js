@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // For making HTTP requests to the backend
-
+import "./App.css"
 function App() {
   const [note, setNote] = useState('');
   const [stackNotes, setStackNotes] = useState([]);
@@ -52,32 +52,40 @@ function App() {
   return (
     <div className="App">
       <h1>Note Management</h1>
-      <input
-        type="text"
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        placeholder="Enter your note"
-      />
-      <button onClick={addNote}>Add Note</button>
+      <div className="input-container">
+        <input
+          type="text"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Enter your note"
+        />
+        <button onClick={addNote}>Add Note</button>
+      </div>
 
-      <ul>
-        <h2>Stack Notes:</h2>
-        {stackNotes.map((note, index) => (
-          <li key={`stack-${index}`}>
-            {note}
-            <button onClick={() => deleteNote(index, true)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-      <ul>
-        <h2>Queue Notes:</h2>
-        {queueNotes.map((note, index) => (
-          <li key={`queue-${index}`}>
-            {note}
-            <button onClick={() => deleteNote(index, false)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <div className="notes-container">
+        <div className="stack-notes">
+          <h2>Stack Notes:</h2>
+          <ul>
+            {stackNotes.map((note, index) => (
+              <li key={`stack-${index}`}>
+                <span>{note}</span>
+                <button onClick={() => deleteNote(index, true)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="queue-notes">
+          <h2>Queue Notes:</h2>
+          <ul>
+            {queueNotes.map((note, index) => (
+              <li key={`queue-${index}`}>
+                <span>{note}</span>
+                <button onClick={() => deleteNote(index, false)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
