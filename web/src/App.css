@@ -1,0 +1,52 @@
+/* App.css */
+.App {
+  text-align: center;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
+  background-color: #282c34;
+  color: white;
+  padding: 20px;
+}
+
+.App-main {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.App-footer {
+  background-color: #282c34;
+  color: white;
+  padding: 10px;
+}
+
+/* App.css */
+
+/* ... (your existing styles) */
+
+/* Style for the button */
+button {
+  padding: 8px 16px;
+  /* Adjust the padding */
+  font-size: 14px;
+  /* Decrease the font size */
+  background-color: #09f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  /* Display as block to center */
+  margin: 20px auto;
+  /* Auto margins to center */
+}
+
+button:hover {
+  background-color: #0af;
+}
