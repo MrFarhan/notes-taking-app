@@ -12,25 +12,20 @@ class Stack:
         return len(self.items) == 0
 
     def push(self, item):
-        self.items.append(item)
+        self.items.insert(0, item)
 
     def pop(self):
         if not self.is_empty():
-            return self.items.pop()
+            return self.items.pop(0)
 
     def size(self):
         return len(self.items)
         
-    def delete_by_index(self, index):
-        if 0 < index and index <= self.size():
+    def delete_by_index(self):
             stack_copy = Stack()
-            for _ in range(self.size() - index):
-                stack_copy.push(self.pop())
+            stack_copy.pop()
             deleted_note = self.pop()
-            while not stack_copy.is_empty():
-                self.push(stack_copy.pop())
             return deleted_note
-        return None    
         
     def bubble_sort(self):
         stack_items = []
@@ -55,25 +50,20 @@ class Queue:
         return len(self.items) == 0
 
     def enqueue(self, item):
-        self.items.insert(0, item)
+        self.items.append(item)
 
     def dequeue(self):
         if not self.is_empty():
-            return self.items.pop()
+            return self.items.pop(0)
 
     def size(self):
         return len(self.items)
 
-    def delete_by_index(self, index):
-        if 0 < index and index <= self.size():
+    def delete_by_index(self):
             queue_copy = Queue()
-            for _ in range(self.size() - index):
-                queue_copy.enqueue(self.dequeue())
+            queue_copy.dequeue()
             deleted_note = self.dequeue()
-            while not queue_copy.is_empty():
-                self.enqueue(queue_copy.dequeue())
             return deleted_note
-        return None
         
     def bubble_sort(self):
         queue_items = []
@@ -90,8 +80,73 @@ class Queue:
             self.enqueue(item)
 
 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+
+
+    def display(self):
+        current = self.head
+        nodes = []
+        while current:
+            nodes.append(current.data)
+            print(current.data, end=' ')
+            current = current.next
+        return nodes
+    
+    
+    def delete_last_node(self):
+        if not self.head:
+            return False  # Empty list, nothing to delete
+
+        if not self.head.next:
+            self.head = None  # Only one node in the list
+            return True
+
+        current = self.head
+        while current.next.next:
+            current = current.next
+
+        current.next = None  # Set the next of the second-to-last node to None
+        return self.display()
+    
+    
+    def bubble_sort(self):
+        if not self.head:
+            return
+
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next:
+                if current.data > current.next.data:
+                    # Swap nodes
+                    current.data, current.next.data = current.next.data, current.data
+                    swapped = True
+                current = current.next
+
+
 notes_stack = Stack()
 notes_queue = Queue()
+notes_sort = LinkedList()
 
 @app.route('/add_note', methods=['POST'])
 def add_note():
@@ -99,39 +154,38 @@ def add_note():
     if note:
         notes_stack.push(note)
         notes_queue.enqueue(note)
+        notes_sort.append(note)
         return jsonify({'message': 'Note added successfully!'}), 200
     return jsonify({'error': 'Note could not be added.'}), 400
 
 @app.route('/view_notes', methods=['GET'])
 def view_notes():
-    notes_from_stack = list(notes_stack.items[::-1])
+    notes_sort.bubble_sort()
+    notes_from_stack = list(notes_stack.items)
     notes_from_queue = list(notes_queue.items)
-    return jsonify({'stack_notes': notes_from_stack, 'queue_notes': notes_from_queue}), 200
+    notes_from_sort = list(notes_sort.display())
+    return jsonify({'stack_notes': notes_from_stack, 'queue_notes': notes_from_queue, 'sort_notes': notes_from_sort}), 200
 
-# @app.route('/delete_note/<int:index>', methods=['DELETE'])
-# def delete_note(index):
-#     if not notes_stack.is_empty() and not notes_queue.is_empty():
-#         deleted_note_stack = notes_stack.delete_by_index(index)
-#         deleted_note_queue = notes_queue.delete_by_index(index)
-#         if deleted_note_stack and deleted_note_queue:
-#             return jsonify({'message': f'Note deleted successfully from Stack and Queue: {deleted_note_stack}'}), 200
-#     return jsonify({'error': 'Invalid index or no notes present.'}), 400
-
-@app.route('/delete_note/stack/<int:index>', methods=['DELETE'])
-def delete_stack_note(index):
-    deleted_note = notes_stack.delete_by_index(index + 1)
+@app.route('/delete_note/stack', methods=['DELETE'])
+def delete_stack_note():
+    deleted_note = notes_stack.delete_by_index()
     if deleted_note is not None:
         return jsonify({'message': f'Note deleted successfully from Stack: {deleted_note}'}), 200
     return jsonify({'error': 'Invalid index or no notes present in Stack.'}), 400
 
-@app.route('/delete_note/queue/<int:index>', methods=['DELETE'])
-def delete_queue_note(index):
-    deleted_note = notes_queue.delete_by_index(index + 1)
+@app.route('/delete_note/queue', methods=['DELETE'])
+def delete_queue_note():
+    deleted_note = notes_queue.delete_by_index()
     if deleted_note is not None:
         return jsonify({'message': f'Note deleted successfully from Queue: {deleted_note}'}), 200
     return jsonify({'error': 'Invalid index or no notes present in Queue.'}), 400
 
-
+@app.route('/delete_note/sort', methods=['DELETE'])
+def delete_sort_note():
+    deleted_note = notes_sort.delete_last_node()
+    if deleted_note is not None:
+        return jsonify({'message': f'Note deleted successfully from Stack: {deleted_note}'}), 200
+    return jsonify({'error': 'Invalid index or no notes present in Stack.'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

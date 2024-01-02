@@ -34,23 +34,27 @@ button:hover {
 }
 
 .stack-notes,
-.queue-notes {
+.queue-notes,
+.sort-notes {
   flex: 1;
 }
 
 .stack-notes ul,
-.queue-notes ul {
+.queue-notes ul,
+.sort-notes ul {
   list-style: none;
   padding: 0;
 }
 
 .stack-notes h2,
-.queue-notes h2 {
+.queue-notes h2,
+.sort-notes h2 {
   margin-top: 0;
 }
 
 .stack-notes li,
-.queue-notes li {
+.queue-notes li,
+.sort-notes li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,16 +63,19 @@ button:hover {
 }
 
 .stack-notes li:last-child,
-.queue-notes li:last-child {
+.queue-notes li:last-child,
+.sort-notes li:last-child {
   border-bottom: none;
 }
 
 .stack-notes button,
-.queue-notes button {
+.queue-notes button,
+.sort-notes button {
   background-color: #dc3545;
 }
 
 .stack-notes button:hover,
-.queue-notes button:hover {
+.queue-notes button:hover,
+.sort-notes button:hover {
   background-color: #c82333;
 }

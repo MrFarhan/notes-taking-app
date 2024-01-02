@@ -5,6 +5,7 @@ function App() {
   const [note, setNote] = useState('');
   const [stackNotes, setStackNotes] = useState([]);
   const [queueNotes, setQueueNotes] = useState([]);
+  const [sortNotes, setSortNotes] = useState([]);
 
   let baseUrl = `http://127.0.0.1:5000`;
 
@@ -12,6 +13,7 @@ function App() {
     axios.post(`${baseUrl}/add_note`, { note })
       .then(response => {
         console.log(response.data);
+        setNote("")
         viewNotes();
       })
       .catch(error => {
@@ -23,18 +25,18 @@ function App() {
     axios.get(`${baseUrl}/view_notes`)
       .then(response => {
         console.log("response is ", response.data);
-        const { queue_notes, stack_notes } = response.data;
+        const { queue_notes, stack_notes, sort_notes } = response.data;
         setStackNotes(stack_notes);
         setQueueNotes(queue_notes);
+        setSortNotes(sort_notes);
       })
       .catch(error => {
         console.error('Error viewing notes:', error);
       });
   };
 
-  const deleteNote = (noteIndex, isStack) => {
-    const endpoint = isStack ? 'stack' : 'queue';
-    axios.delete(`${baseUrl}/delete_note/${endpoint}/${noteIndex}`)
+  const deleteNote = (endpoint) => {
+    axios.delete(`${baseUrl}/delete_note/${endpoint}`)
       .then(response => {
         console.log(response.data);
         viewNotes();
@@ -65,22 +67,34 @@ function App() {
       <div className="notes-container">
         <div className="stack-notes">
           <h2>Stack Notes:</h2>
+            <button onClick={() => deleteNote("stack")}>Delete</button>
           <ul>
             {stackNotes.map((note, index) => (
               <li key={`stack-${index}`}>
                 <span>{note}</span>
-                <button onClick={() => deleteNote(index, true)}>Delete</button>
               </li>
             ))}
           </ul>
         </div>
         <div className="queue-notes">
           <h2>Queue Notes:</h2>
+            <button onClick={() => deleteNote("queue")}>Delete</button>
           <ul>
             {queueNotes.map((note, index) => (
               <li key={`queue-${index}`}>
                 <span>{note}</span>
-                <button onClick={() => deleteNote(index, false)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="sort-notes">
+          <h2>Sort Notes:</h2>
+            <button onClick={() => deleteNote("sort")}>Delete</button>
+          <ul>
+            {sortNotes.map((note, index) => (
+              <li key={`sort-${index}`}>
+                <span>{note}</span>
               </li>
             ))}
           </ul>
