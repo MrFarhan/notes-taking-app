@@ -15,7 +15,7 @@ class Queue:
     def size(self):
         return len(self.items)
 
-    def delete_by_index(self):
+    def delete(self):
             queue_copy = Queue()
             queue_copy.dequeue()
             deleted_note = self.dequeue()

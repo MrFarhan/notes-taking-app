@@ -16,7 +16,7 @@ class Stack:
     def size(self):
         return len(self.items)
         
-    def delete_by_index(self):
+    def delete(self):
             stack_copy = Stack()
             stack_copy.pop()
             deleted_note = self.pop()
