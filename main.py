@@ -32,24 +32,24 @@ def view_notes():
 
 @app.route('/delete_note/stack', methods=['DELETE'])
 def delete_stack_note():
-    deleted_note = notes_stack.delete()
+    deleted_note = notes_stack.pop()
     if deleted_note is not None:
         return jsonify({'message': f'Note deleted successfully from Stack: {deleted_note}'}), 200
-    return jsonify({'error': 'Invalid index or no notes present in Stack.'}), 400
+    return jsonify({'error': 'No notes present in Stack.'}), 400
 
 @app.route('/delete_note/queue', methods=['DELETE'])
 def delete_queue_note():
-    deleted_note = notes_queue.delete()
+    deleted_note = notes_queue.dequeue()
     if deleted_note is not None:
         return jsonify({'message': f'Note deleted successfully from Queue: {deleted_note}'}), 200
-    return jsonify({'error': 'Invalid index or no notes present in Queue.'}), 400
+    return jsonify({'error': 'No notes present in Queue.'}), 400
 
 @app.route('/delete_note/sort', methods=['DELETE'])
 def delete_sort_note():
-    deleted_note = notes_sort.delete_last_node()
+    deleted_note = notes_sort.delete()
     if deleted_note is not None:
         return jsonify({'message': f'Note deleted successfully from Stack: {deleted_note}'}), 200
-    return jsonify({'error': 'Invalid index or no notes present in Stack.'}), 400
+    return jsonify({'error': 'No notes present in Sort.'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -25,24 +25,22 @@ class LinkedList:
         nodes = []
         while current:
             nodes.append(current.data)
-            print(current.data, end=' ')
             current = current.next
         return nodes
     
     
-    def delete_last_node(self):
+    def delete(self):
         if not self.head:
-            return False  # Empty list, nothing to delete
+            return False
 
         if not self.head.next:
-            self.head = None  # Only one node in the list
+            self.head = None
             return True
 
         current = self.head
         while current.next.next:
             current = current.next
-
-        current.next = None  # Set the next of the second-to-last node to None
+        current.next = None
         return self.display()
     
     
